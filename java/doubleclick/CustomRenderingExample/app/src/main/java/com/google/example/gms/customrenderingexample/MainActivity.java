@@ -73,14 +73,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
         refreshAd();
+    }
 
+    private void refreshAdDelayed() {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 refresh.performClick();
-                handler.postDelayed(this, 2000);
             }
-        }, 2000);
+        }, 10000);
     }
 
     /**
@@ -135,6 +136,8 @@ public class MainActivity extends AppCompatActivity {
                     populateSimpleTemplateAdView(ad, adView);
                     frameLayout.removeAllViews();
                     frameLayout.addView(adView);
+
+                    refreshAdDelayed();
                 }
             },
             new NativeCustomTemplateAd.OnCustomClickListener() {
@@ -155,6 +158,8 @@ public class MainActivity extends AppCompatActivity {
                 refresh.setEnabled(true);
                 Toast.makeText(MainActivity.this, "Failed to load native ad: "
                         + errorCode, Toast.LENGTH_SHORT).show();
+
+                refreshAdDelayed();
             }
         }).build();
 
